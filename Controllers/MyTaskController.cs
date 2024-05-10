@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyTask.Interfaces;
 using MyTask.Models;
@@ -8,6 +9,7 @@ namespace MyTask.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize(Policy = "User")]
     public class MyTaskController : ControllerBase
     {
         IMyTaskService TaskService;

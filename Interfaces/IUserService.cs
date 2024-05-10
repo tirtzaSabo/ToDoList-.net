@@ -1,6 +1,7 @@
 using MyTask.Models;
 using System.Collections.Generic;
 
+
 namespace MyTask.Interfaces
 {
         public interface IUserService
@@ -11,5 +12,6 @@ namespace MyTask.Interfaces
         void Delete(int id);
         void Update(User user);
         int Count {get;}
+        User GetUser(string name, string password);
     }
 }

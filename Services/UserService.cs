@@ -1,10 +1,15 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text.Json;
 using MyTask.Interfaces;
 using MyTask.Models;
+using Microsoft.AspNetCore.Hosting;
 
 namespace MyTask.Services
 {
-    public class UserService : IUserService
+    public class UserService :  IUserService
     {
         private List<User> Users { get; }
         private string filePath;
@@ -47,6 +52,7 @@ namespace MyTask.Services
 
         public User Get(int id) => Users.FirstOrDefault(u => u.Id == id);
 
+
         public List<User> GetAll() => Users;
 
         public void Update(User user)
@@ -57,6 +63,10 @@ namespace MyTask.Services
 
             Users[index] = user;
             saveToFile();
+        }
+        public User GetUser(string name, string password)
+        {
+            return Users.Find(u => u.Name == name && u.password==password);
         }
     }
 

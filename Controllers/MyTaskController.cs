@@ -9,7 +9,7 @@ namespace MyTask.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize(Policy = "User")]
+//    [Authorize(Policy = "User")]
     public class MyTaskController : ControllerBase
     {
         IMyTaskService TaskService;

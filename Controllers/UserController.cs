@@ -1,3 +1,4 @@
+using System;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,20 +24,20 @@ namespace MyTask.controllers
 
         [HttpPost]
         [Route("/login")]
-        public ActionResult<String> Login([FromBody] User User)
+        public ActionResult<String> Login([FromBody] User u)
         {
+         
             var dt = DateTime.Now;
 
-            User user = new User();
-            user = UserService.GetUser(user.Name, user.password);
+            User user = UserService.GetUser(u.Name!, u.Password!);
 
             if (user == null)
             {
                 return Unauthorized();
             }
 
-            var claims = new List<Claim> { new Claim("id", user.Id.ToString()), };
-            if (user.password == "326131117")
+            var claims = new List<Claim> { new("id", user.Id.ToString()), };
+            if (user.Password == "326131117")
             {
                 claims.Add(new Claim("type", "Admin"));
             }
@@ -46,7 +47,6 @@ namespace MyTask.controllers
             }
 
             var token = UserTokenService.GetToken(claims);
-
             return new OkObjectResult(UserTokenService.WriteToken(token));
         }
 

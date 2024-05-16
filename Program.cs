@@ -2,7 +2,16 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using MyTask.Interfaces;
 using MyTask.Services;
-
+using System;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpContextAccessor();
 builder
@@ -21,7 +30,7 @@ builder.Services.AddAuthorization(cfg =>
     cfg.AddPolicy("User", policy => policy.RequireClaim("type", "Admin", "User"));
 });
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
+//builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "ToDoList", Version = "v1" });
@@ -60,7 +69,7 @@ builder.Services.AddUser();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.WebHost.UseUrls();
+//builder.WebHost.UseUrls();
 
 // builder.Build();
 
@@ -72,16 +81,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseRouting();
-app.UseAuthentication();
-app.UseAuthorization();
 app.UseHttpsRedirection();
 app.UseDefaultFiles();
 app.UseStaticFiles();
-app.UseEndpoints(endpoints =>
-{
-    _ = endpoints.MapControllers();
-});
+//app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+// app.UseEndpoints(endpoints =>
+// {
+//     _ = endpoints.MapControllers();
+// });
 app.MapControllers();
 
 app.Run();

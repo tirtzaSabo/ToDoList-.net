@@ -66,7 +66,7 @@ namespace MyTask.Services
         }
         public User GetUser(string name, string password)
         {
-            return Users.Find(u => u.Name == name && u.password==password);
+            return Users.Find(u => u.Name == name && u.Password == password);
         }
     }
 

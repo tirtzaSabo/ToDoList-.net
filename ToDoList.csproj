@@ -1,10 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!-- <PropertyGroup>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AssemblyName>ToDoList-.net</AssemblyName>
+  </PropertyGroup> -->
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <InvariantGlobalization>true</InvariantGlobalization>
+    <!-- <InvariantGlobalization>true</InvariantGlobalization> -->
+    <!-- <UserSecretsId>26589565-dfe3-40c9-9037-59aa7dc438b4</UserSecretsId> -->
   </PropertyGroup>
 
   <ItemGroup>

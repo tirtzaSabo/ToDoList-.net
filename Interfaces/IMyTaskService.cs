@@ -5,11 +5,11 @@ namespace MyTask.Interfaces
 {
         public interface IMyTaskService
     {
-        List<TheTask> GetAll();
-        TheTask Get(int id);
-        void Add(TheTask task);
-        void Delete(int id);
-        void Update(TheTask task);
+        List<TheTask> GetAll(int userId);
+        TheTask Get(int userId,int id);
+        void Add(int userId,TheTask task);
+        void Delete(int userId,int id);
+        void Update(int userId,TheTask task);
         int Count {get;}
     }
 }

@@ -32,20 +32,21 @@ namespace MyTask.Services
             File.WriteAllText(filePath, JsonSerializer.Serialize(Tasks));
         }
 
-        public List<TheTask> GetAll() => Tasks;
+        public List<TheTask> GetAll(int userId) => Tasks.FindAll(t => t.UserId == userId);
+   
 
-        public TheTask Get(int id) => Tasks.FirstOrDefault(t => t.Id == id);
+        public TheTask Get(int userId, int id) => Tasks.FirstOrDefault(t => t.UserId == userId && t.Id == id);
 
-        public void Add(TheTask task)
+        public void Add(int userId, TheTask task)
         {
             task.Id = Tasks.Count() + 1;
             Tasks.Add(task);
             saveToFile();
         }
 
-        public void Delete(int id)
+        public void Delete(int userId, int id)
         {
-            var task = Get(id);
+            var task = Get(userId, id);
             if (task is null)
                 return;
 
@@ -53,7 +54,7 @@ namespace MyTask.Services
             saveToFile();
         }
 
-        public void Update(TheTask task)
+        public void Update(int userId, TheTask task)
         {
             var index = Tasks.FindIndex(t => t.Id == task.Id);
             if (index == -1)

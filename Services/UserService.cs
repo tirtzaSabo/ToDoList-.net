@@ -40,9 +40,9 @@ namespace MyTask.Services
             saveToFile();
         }
 
-        public void Delete(int id)
+        public void Delete(int userId)
         {
-            var user = Get(id);
+            var user = Get(userId);
             if (user is null)
                 return;
 

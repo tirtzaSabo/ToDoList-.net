@@ -49,28 +49,28 @@ namespace MyTask.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int userId, int id, TheTask task)
+        public IActionResult Update( int id, TheTask task)
         {
             if (id != task.Id)
                 return BadRequest();
 
-            var existingTask = TaskService.Get(userId, id);
+            var existingTask = TaskService.Get(this.userId, id);
             if (existingTask is null)
                 return NotFound();
 
-            TaskService.Update(userId, task);
+            TaskService.Update(this.userId, task);
 
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int userId, int id)
+        public IActionResult Delete( int id)
         {
-            var task = TaskService.Get(userId, id);
+            var task = TaskService.Get(this.userId, id);
             if (task is null)
                 return NotFound();
 
-            TaskService.Delete(userId, id);
+            TaskService.Delete(this.userId, id);
 
             return Content(TaskService.Count.ToString());
         }

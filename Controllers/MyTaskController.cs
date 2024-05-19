@@ -29,9 +29,6 @@ namespace MyTask.Controllers
         public ActionResult<List<TheTask>> GetAll()
         {
             return TaskService.GetAll(this.userId);
-            // if (tasks.Count == 0)
-            //     return NotFound();
-            // return tasks;
         }
 
         [HttpGet("{id}")]
@@ -45,9 +42,9 @@ namespace MyTask.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(int userId, TheTask task)
+        public IActionResult Create( TheTask task)
         {
-            TaskService.Add(userId, task);
+            TaskService.Add(this.userId, task);
             return CreatedAtAction(nameof(Create), new { id = task.Id }, task);
         }
 

@@ -13,9 +13,12 @@ namespace MyTask.Services
     {
         private List<User> Users { get; }
         private string filePath;
+        IMyTaskService TaskService;
+        private List<TheTask> Tasks { get; }
 
-        public UserService(IWebHostEnvironment webHost)
+        public UserService(IWebHostEnvironment webHost ,IMyTaskService TaskService)
         {
+            this.TaskService = TaskService;
             this.filePath = Path.Combine(webHost.ContentRootPath, "Data", "Users.json");
             using (var jsonFile = File.OpenText(filePath))
             {
@@ -45,7 +48,8 @@ namespace MyTask.Services
             var user = Get(userId);
             if (user is null)
                 return;
-
+            var tasksUser = TaskService.GetAll(userId);
+            tasksUser.ForEach(task => TaskService.Delete(userId,task.Id)) ;
             Users.Remove(user);
             saveToFile();
         }

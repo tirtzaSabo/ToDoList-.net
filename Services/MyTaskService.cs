@@ -40,6 +40,7 @@ namespace MyTask.Services
         public void Add(int userId, TheTask task)
         {
             task.Id = Tasks.Count() + 1;
+            task.UserId = userId;
             Tasks.Add(task);
             saveToFile();
         }

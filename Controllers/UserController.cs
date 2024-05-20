@@ -26,7 +26,6 @@ namespace MyTask.controllers
         [Route("/login")]
         public ActionResult<String> Login([FromBody] User u)
         {
-        
             User user = UserService.GetUser(u.Name!, u.Password!);
 
             if (user == null)
@@ -47,10 +46,11 @@ namespace MyTask.controllers
             var token = UserTokenService.GetToken(claims);
             return new OkObjectResult(UserTokenService.WriteToken(token));
         }
+
         [HttpGet]
         [Route("/user")]
         [Authorize(Policy = "User")]
-        public ActionResult<User> GetUser() 
+        public ActionResult<User> GetUser()
         {
             var user = UserService.Get(this.userId);
             if (user == null)
@@ -69,11 +69,18 @@ namespace MyTask.controllers
             UserService.Add(user);
             return CreatedAtAction(nameof(Create), new { id = user.Id }, user);
         }
-        // [HttpDelete("{userId}")]
-        // [Authorize(Policy = "Admin")]
-        // public IActionResult Delete(int userId)
-        // {
 
-        // }
+        [HttpDelete("{userId}")]
+        [Authorize(Policy = "Admin")]
+        public IActionResult Delete(int userId)
+        {
+            var user = UserService.Get(userId);
+            if (user is null)
+                return NotFound();
+
+            UserService.Delete(userId);
+
+            return Content(UserService.Count.ToString());
+        }
     }
 }

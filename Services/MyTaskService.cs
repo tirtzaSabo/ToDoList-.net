@@ -57,6 +57,7 @@ namespace MyTask.Services
 
         public void Update(int userId, TheTask task)
         {
+            task.UserId = userId;
             var index = Tasks.FindIndex(t => t.Id == task.Id);
             if (index == -1)
                 return;

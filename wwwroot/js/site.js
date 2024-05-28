@@ -2,16 +2,27 @@ const uri = '/MyTask';
 let tasks = [];
 
 function getItems() {
-    fetch(uri)
+    fetch(uri, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify()
+    })
         .then(response => response.json())
         .then(data => _displayItems(data))
-        .catch(error => console.error('Unable to get items.', error));
 
+        .catch(error => {
+            console.error('Unable to get items.', error)
+            window.location.href = "../html/login.html"
+        }
+        );
 }
 
 function addItem() {
     const addNameTextbox = document.getElementById('add-name');
-
     const item = {
         isDone: false,
         description: addNameTextbox.value.trim()
@@ -20,7 +31,9 @@ function addItem() {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+
         },
         body: JSON.stringify(item)
     })
@@ -35,7 +48,12 @@ function addItem() {
 
 function deleteItem(id) {
     fetch(`${uri}/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
     })
         .then(() => getItems())
         .catch(error => console.error('Unable to delete item.', error));
@@ -43,7 +61,6 @@ function deleteItem(id) {
 
 function displayEditForm(id) {
     const item = tasks.find(item => item.id === id);
-
     document.getElementById('edit-name').value = item.description;
     document.getElementById('edit-id').value = item.id;
     document.getElementById('edit-isDone').checked = item.isDone;
@@ -55,25 +72,25 @@ function updateItem() {
     const item = {
         id: parseInt(itemId, 10),
         isDone: document.getElementById('edit-isDone').checked,
-        description: document.getElementById('edit-name').value.trim()
+        description: document.getElementById('edit-name').value.trim(),
+        userId: 0
     };
-
     fetch(`${uri}/${itemId}`, {
         method: 'PUT',
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+
         },
         body: JSON.stringify(item)
     })
         .then(() => getItems())
         .catch(error => console.error('Unable to update item.', error));
-
     closeInput();
 
     return false;
 }
-
 function closeInput() {
     document.getElementById('editForm').style.display = 'none';
 }
@@ -123,4 +140,48 @@ function _displayItems(data) {
     });
 
     tasks = data;
+}
+function closeUserDetails() {
+    document.getElementById('editUserForm').style.display = 'none';
+}
+function updateUserDetails() {
+    const user = {
+        id: 0,
+        name: document.getElementById('edit-user-name').value.trim(),
+        password: document.getElementById('edit-password').value.trim(),
+    };
+    fetch('users', {
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+
+        },
+        body: JSON.stringify(user)
+    })
+        .catch(error => console.error('Unable to update user.', error));
+    closeUserDetails();
+
+    return false;
+}
+function getUser() {
+    fetch('/user', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify()
+    })
+        .then(response => response.json())
+        .then(res => displayEditUserForm(res))
+        .catch(err => console.log(err));      
+}
+
+function displayEditUserForm(user){
+    document.getElementById('edit-user-name').value=user.name;
+    document.getElementById('edit-password').value=user.password;
+    document.getElementById('editUserForm').style.display='block';
 }

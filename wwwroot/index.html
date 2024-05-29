@@ -42,9 +42,8 @@
     <div id="editUserForm">
         <h3>Edit Details</h3>
         <form action="javascript:void(0);" onsubmit="updateUserDetails()">
-            <input type="hidden" id="edit-user-id">
             <input type="text" id="edit-user-name">
-            <input type="password" id="edit-password">
+            <input type="text" id="edit-password">
             <input type="submit" value="Save">
             <a onclick="closeUserDetails()" aria-label="Close">&#10006;</a>
         </form>
@@ -55,8 +54,8 @@
     <script src="js/site.js" asp-append-version="true"></script>
     <script type="text/javascript">
         const token = localStorage.getItem('tasksToken')
-        if(!token)
-            window.location.href="./html/login.html"
+        if (!token)
+            window.location.href = "./html/login.html"
         getItems();
         getIfAdmin();
     </script>

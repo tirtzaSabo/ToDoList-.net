@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using Microsoft.AspNetCore.Hosting;
 using MyTask.Interfaces;
 using MyTask.Models;
-using Microsoft.AspNetCore.Hosting;
 
 namespace MyTask.Services
 {
-    public class UserService :  IUserService
+    public class UserService : IUserService
     {
         private List<User> Users { get; }
         private string filePath;
         IMyTaskService TaskService;
         private List<TheTask> Tasks { get; }
 
-        public UserService(IWebHostEnvironment webHost ,IMyTaskService TaskService)
+        public UserService(IWebHostEnvironment webHost, IMyTaskService TaskService)
         {
             this.TaskService = TaskService;
             this.filePath = Path.Combine(webHost.ContentRootPath, "Data", "Users.json");
@@ -49,25 +49,32 @@ namespace MyTask.Services
             if (user is null)
                 return;
             var tasksUser = TaskService.GetAll(userId);
-            tasksUser.ForEach(task => TaskService.Delete(userId,task.Id)) ;
+            tasksUser.ForEach(task => TaskService.Delete(userId, task.Id));
             Users.Remove(user);
             saveToFile();
         }
 
         public User Get(int id) => Users.FirstOrDefault(u => u.Id == id);
 
-
         public List<User> GetAll() => Users;
 
-        public void Update(User user)
+        public bool Update(User newUser)
         {
-            var index = Users.FindIndex(t => t.Id == user.Id);
-            if (index == -1)
-                return;
+            var existingUser = Get(newUser.Id);
+            if (existingUser == null)
+                return false;
 
-            Users[index] = user;
+            var index = Users.IndexOf(existingUser);
+            if (index == -1)
+                return false;
+
+            Users[index] = newUser;
+
             saveToFile();
+
+            return true;
         }
+
         public User GetUser(string name, string password)
         {
             return Users.Find(u => u.Name == name && u.Password == password);

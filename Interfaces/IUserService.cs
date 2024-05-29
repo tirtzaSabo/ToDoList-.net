@@ -10,7 +10,7 @@ namespace MyTask.Interfaces
         User Get(int id);
         void Add(User user);
         void Delete(int id);
-        void Update(User user);
+        bool Update(User user);
         int Count {get;}
         User GetUser(string name, string password);
     }

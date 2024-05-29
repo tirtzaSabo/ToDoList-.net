@@ -24,9 +24,10 @@ function getUsers() {
 
 function addUser() {
     const addNameTextbox = document.getElementById('add-name');
+    const addPasswordTextBox = document.getElementById('add-password');
     const user = {
         name: addNameTextbox.value.trim(),
-        password: ""
+        password: addPasswordTextBox.value.trim()
     };
     fetch(uri, {
         method: 'POST',
@@ -42,6 +43,7 @@ function addUser() {
         .then(() => {
             getUsers();
             addNameTextbox.value = '';
+            addPasswordTextBox.value='';
         })
         .catch(error => console.error('Unable to add user.', error));
 

@@ -35,7 +35,7 @@ namespace MyTask.controllers
             }
 
             var claims = new List<Claim> { new("id", user.Id.ToString()), };
-            if (user.Password == "326131117")
+            if (user.Password == "12345678")
             {
                 claims.Add(new Claim("type", "Admin"));
             }
@@ -82,6 +82,19 @@ namespace MyTask.controllers
             UserService.Delete(userId);
 
             return Content(UserService.Count.ToString());
+        }
+
+        [HttpPut]
+        [Authorize(Policy = "User")]
+        public ActionResult put(User newUser)
+        {
+            newUser.Id = this.userId;
+            var result = UserService.Update(newUser);
+            if (!result)
+            {
+                return BadRequest();
+            }
+            return NoContent();
         }
 
         [HttpGet]

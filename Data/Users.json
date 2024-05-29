@@ -1,12 +1,27 @@
 [
     {
         "Id": 1,
-        "Name": "Tirtza",
-        "Password": "326131117"
+        "Name": "admin",
+        "Password": "12345678"
+    },
+    {
+        "Id": 2,
+        "Name": "Rivki",
+        "Password": "326131109"
     },
     {
         "Id": 4,
-        "Name": "Yair",
+        "Name": "meir",
         "Password": "222"
+    },
+    {
+        "Id": 5,
+        "Name": "yossi",
+        "Password": "333"
+    },
+    {
+        "Id": 6,
+        "Name": "dan",
+        "Password": "444"
     }
 ]

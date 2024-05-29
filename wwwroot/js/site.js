@@ -177,11 +177,32 @@ function getUser() {
     })
         .then(response => response.json())
         .then(res => displayEditUserForm(res))
-        .catch(err => console.log(err));      
+        .catch(err => console.log(err));
 }
 
-function displayEditUserForm(user){
-    document.getElementById('edit-user-name').value=user.name;
-    document.getElementById('edit-password').value=user.password;
-    document.getElementById('editUserForm').style.display='block';
+function displayEditUserForm(user) {
+    document.getElementById('edit-user-name').value = user.name;
+    document.getElementById('edit-password').value = user.password;
+    document.getElementById('editUserForm').style.display = 'block';
+}
+function usersButton() {
+    const to_users = document.getElementById('to_users');
+    to_users.hidden = false;
+}
+
+function getIfAdmin() {
+    fetch('/ifAdmin', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify()
+    })
+        .then(res => {
+            if (res.status === 200)
+                usersButton();
+        })
+        .catch(err => console.error(err))
 }

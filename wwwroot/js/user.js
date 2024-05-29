@@ -1,5 +1,7 @@
-const uri = '/users';
+const uri = '/User';
 let users = [];
+
+const token = localStorage.getItem('tasksToken')
 
 function getUsers() {
     fetch(uri, {
@@ -34,7 +36,7 @@ function addUser() {
             'Authorization': `Bearer ${token}`
 
         },
-        body: JSON.stringify(item)
+        body: JSON.stringify(user)
     })
         .then(response => response.json())
         .then(() => {
@@ -58,11 +60,17 @@ function deleteUser(id) {
         .catch(error => console.error('Unable to delete user.', error));
 }
 
+function _displayCount(itemCount) {
+    const name = (itemCount === 1) ? 'user' : 'users';
+
+    document.getElementById('counter').innerText = `${itemCount} ${name}`;
+}
+
 function _displayUsers(data) {
     const tBody = document.getElementById('Users');
     tBody.innerHTML = '';
 
-    // _displayCount(data.length);
+    _displayCount(data.length);
 
     const button = document.createElement('button');
 
@@ -70,17 +78,22 @@ function _displayUsers(data) {
 
         let deleteButton = button.cloneNode(false);
         deleteButton.innerText = 'Delete';
-        deleteButton.setAttribute('onclick', `deleteItem(${user.id})`);
+        deleteButton.setAttribute('onclick', `deleteUser(${user.id})`);
 
         let tr = tBody.insertRow();
 
-        let td2 = tr.insertCell(1);
-        let textNode = document.createTextNode(user.name);
-        td2.appendChild(textNode);
+        let td1 = tr.insertCell(0);
+        let textNode1 = document.createTextNode(user.name);
+        td1.appendChild(textNode1);
 
-        let td4 = tr.insertCell(3);
+        let td2 = tr.insertCell(1);
+        let textNode2 = document.createTextNode(user.password);
+        td2.appendChild(textNode2);
+
+        let td4 = tr.insertCell(2);
         td4.appendChild(deleteButton);
     });
 
     users = data;
 }
+getUsers();

@@ -4,14 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <title>user CRUD</title>
-    <link rel="stylesheet" href="css/site.css" />
+    <link rel="stylesheet" href="../css/site.css" />
 </head>
 
 <body>
     <h1>user CRUD</h1>
     <h3>Add</h3>
     <form action="javascript:void(0);" method="POST" onsubmit="addUser()">
-        <input type="text" id="add-name" placeholder="New User">
+        <input type="text" id="add-name" placeholder="user name">
+        <input type="text" id="add-password" placeholder="user password">
         <input type="submit" value="Add">
     </form>
 
@@ -27,13 +28,10 @@
         <tbody id="Users"></tbody>
     </table>
 
-    <a id="to_tasks"  href="./html/task.html">to tasks</a>
+    <a id="to_tasks"  href="../index.html">to tasks</a>
 
-    <script src="js/site.js" asp-append-version="true"></script>
-    <script type="text/javascript">
-        const token = localStorage.getItem('tasksToken')
-        getItems();
-    </script>
+    <script src="../js/user.js" asp-append-version="true"></script>
+
 </body>
 
 </html>

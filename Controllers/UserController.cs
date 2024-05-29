@@ -1,6 +1,7 @@
 using System;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using MyTask.Interfaces;
 using MyTask.Models;
@@ -9,7 +10,7 @@ using MyTask.Services;
 namespace MyTask.controllers
 {
     [ApiController]
-    [Route("controller")]
+    [Route("[controller]")]
     public class UserController : ControllerBase
     {
         private int userId;
@@ -48,7 +49,7 @@ namespace MyTask.controllers
         }
 
         [HttpGet]
-        [Route("/user")]
+        [Route("/_user")]
         [Authorize(Policy = "User")]
         public ActionResult<User> GetUser()
         {
@@ -81,6 +82,14 @@ namespace MyTask.controllers
             UserService.Delete(userId);
 
             return Content(UserService.Count.ToString());
+        }
+
+        [HttpGet]
+        [Route("/ifAdmin")]
+        [Authorize(Policy = "Admin")]
+        public ActionResult<String> GetIfAdmin()
+        {
+            return new OkObjectResult("true");
         }
     }
 }
